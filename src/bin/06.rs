@@ -2,7 +2,7 @@ advent_of_code::solution!(6);
 
 use std::collections::HashMap;
 
-fn argmax(input_vector: &Vec<u64>) -> Option<usize> {
+fn argmax(input_vector: &[u64]) -> Option<usize> {
     let mut max: u64 = 0;
     let mut argmax = 0;
     for (index, element) in input_vector.iter().enumerate() {
@@ -24,14 +24,13 @@ impl From<&str> for MemoryBank {
     fn from(input: &str) -> Self {
         let banks: Vec<u64> = input
             .split_whitespace()
-            .into_iter()
             .map(|element| element.parse::<u64>().unwrap())
             .collect();
         let mut memory = HashMap::new();
         memory.insert(banks.clone(), 0);
         MemoryBank {
-            banks: banks,
-            memory: memory,
+            banks,
+            memory,
             number_iters: 0,
         }
     }
@@ -47,10 +46,19 @@ impl MemoryBank {
                 let length = self.banks.len() as u64;
                 let to_add = to_redistribute / length;
                 let reminder = to_redistribute % length;
-                Some(self.banks.iter().enumerate().map(|(index, element)| {
-                    let offset = (index as i64 - max_index as i64).rem_euclid(length as i64);
-                    element + to_add + ((0 < offset && offset <= ((reminder) as i64)) as u64)
-                }).collect())
+                Some(
+                    self.banks
+                        .iter()
+                        .enumerate()
+                        .map(|(index, element)| {
+                            let offset =
+                                (index as i64 - max_index as i64).rem_euclid(length as i64);
+                            element
+                                + to_add
+                                + ((0 < offset && offset <= ((reminder) as i64)) as u64)
+                        })
+                        .collect(),
+                )
             }
             None => None,
         }
@@ -62,7 +70,7 @@ impl MemoryBank {
             let next_bank = self.get_next_bank();
             if let Some(bank) = next_bank {
                 if self.memory.contains_key(&bank) {
-                    return Some((self.number_iters, self.number_iters - self.memory[&bank]))
+                    return Some((self.number_iters, self.number_iters - self.memory[&bank]));
                 }
                 self.banks = bank.clone();
                 self.memory.insert(bank, self.number_iters);
@@ -76,7 +84,7 @@ impl MemoryBank {
 pub fn part_one(input: &str) -> Option<u64> {
     let mut memory_bank = MemoryBank::from(input);
     if let Some(result) = memory_bank.find_loop() {
-        return Some(result.0)
+        return Some(result.0);
     }
     None
 }
@@ -84,7 +92,7 @@ pub fn part_one(input: &str) -> Option<u64> {
 pub fn part_two(input: &str) -> Option<u64> {
     let mut memory_bank = MemoryBank::from(input);
     if let Some(result) = memory_bank.find_loop() {
-        return Some(result.1)
+        return Some(result.1);
     }
     None
 }

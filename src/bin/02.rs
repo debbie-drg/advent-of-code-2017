@@ -3,11 +3,9 @@ advent_of_code::solution!(2);
 fn parse_input(input: &str) -> Vec<Vec<u64>> {
     input
         .split("\n")
-        .into_iter()
         .map(|row| {
             row.split_whitespace()
-                .into_iter()
-                .map(|element| element.parse::<u64>().unwrap())
+                .filter_map(|element| element.parse::<u64>().ok())
                 .collect()
         })
         .collect()
@@ -34,7 +32,7 @@ pub fn part_two(input: &str) -> Option<u64> {
                         }
                     }
                 }
-                return 0;
+                0
             })
             .sum(),
     )

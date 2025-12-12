@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use itertools::Itertools;
+use std::collections::HashSet;
 advent_of_code::solution!(4);
 
 fn is_valid(input: Vec<&str>, count_anagrams: bool) -> bool {
@@ -18,10 +18,9 @@ fn is_valid(input: Vec<&str>, count_anagrams: bool) -> bool {
 
 fn is_valid_batch(input: &str, count_anagrams: bool) -> u64 {
     input
-            .split("\n")
-            .into_iter()
-            .filter(|line| is_valid(line.split_whitespace().collect(), count_anagrams))
-            .count() as u64
+        .split("\n")
+        .filter(|line| is_valid(line.split_whitespace().collect(), count_anagrams))
+        .count() as u64
 }
 
 pub fn part_one(input: &str) -> Option<u64> {
@@ -31,4 +30,3 @@ pub fn part_one(input: &str) -> Option<u64> {
 pub fn part_two(input: &str) -> Option<u64> {
     Some(is_valid_batch(input, true))
 }
-

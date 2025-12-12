@@ -3,7 +3,6 @@ advent_of_code::solution!(5);
 fn parse_steps(input: &str) -> Vec<i64> {
     input
         .split("\n")
-        .into_iter()
         .map(|element| element.parse::<i64>().unwrap())
         .collect()
 }

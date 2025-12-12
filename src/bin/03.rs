@@ -7,7 +7,7 @@ pub fn part_one(input: &str) -> Option<u64> {
     match input_number {
         Err(_) => None,
         Ok(address) => {
-            let iteration = (((address as f64).sqrt() - 1 as f64) / 2 as f64).ceil() as i64;
+            let iteration = (((address as f64).sqrt() - 1_f64) / 2_f64).ceil() as i64;
             if iteration == 0 {
                 return Some(0);
             }
@@ -49,10 +49,9 @@ pub fn part_two(input: &str) -> Option<u64> {
                         let last_cell_value: u64 = neighbours
                             .iter()
                             .map(|(x_offset, y_offset)| {
-                                table_results
+                                *table_results
                                     .entry((location.0 + x_offset, location.1 + y_offset))
                                     .or_insert(0)
-                                    .clone()
                             })
                             .sum();
                         if last_cell_value > address {
@@ -61,7 +60,7 @@ pub fn part_two(input: &str) -> Option<u64> {
                         table_results.insert(location, last_cell_value);
                     }
                     number_changes += 1;
-                    if number_changes % 2 == 0 {
+                    if number_changes.is_multiple_of(2) {
                         inc += 1;
                     }
                 }
