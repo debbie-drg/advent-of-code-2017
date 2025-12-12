@@ -45,7 +45,7 @@ impl MemoryBank {
                 self.banks[max_index] = 0;
                 let length = self.banks.len() as u64;
                 let to_add = to_redistribute / length;
-                let reminder = to_redistribute % length;
+                let reminder = to_redistribute.rem_euclid(length);
                 Some(
                     self.banks
                         .iter()
@@ -103,11 +103,11 @@ mod tests {
 
     #[test]
     fn test_part_one() {
-        assert_eq!(part_one("2 4 1 2"), Some(5));
+        assert_eq!(part_one("0 2 7 0"), Some(5));
     }
 
     #[test]
     fn test_part_two() {
-        assert_eq!(part_two("2 4 1 2"), Some(4))
+        assert_eq!(part_two("0 2 7 0"), Some(4))
     }
 }
